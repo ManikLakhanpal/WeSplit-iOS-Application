@@ -15,12 +15,19 @@ struct ContentView: View {
     
     let tipPercentages = [0, 10, 15, 20, 25]
     
-    var totalPerPerson: Double {
-        let peopleCount = Double(numberOfPeople + 2)
+    var totalBill: Double {
         let tipSelection = Double(tipPercentage)
         
         let tipValue = checkAmount / 100 * tipSelection
         let grandTotal = checkAmount + tipValue
+        
+        return grandTotal
+    }
+    
+    var totalPerPerson: Double {
+        let peopleCount = Double(numberOfPeople + 2)
+        let grandTotal = totalBill
+        
         let amountPerPerson = grandTotal / peopleCount
         
         return amountPerPerson
@@ -40,7 +47,7 @@ struct ContentView: View {
                             .foregroundColor(.blue)
                             .multilineTextAlignment(.trailing)
                             .frame(maxWidth: .infinity, alignment: .trailing)
-                            .focused($amountIsFocused)
+                            .focused($amountIsFocused) // When clicked amountIsFocused = true
                     }
                     
                     Picker("Number of people", selection: $numberOfPeople) {
@@ -60,11 +67,11 @@ struct ContentView: View {
                     .pickerStyle(.segmented)
                 }
                 
-                Section("Final") {
+                Section("Result") {
                     HStack {
                         Text("Total Bill:")
                         Spacer()
-                        Text(checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                        Text(totalBill, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                             
                     }
                     HStack {
@@ -79,7 +86,7 @@ struct ContentView: View {
             .toolbar {
                 if amountIsFocused {
                     Button("Done") {
-                        amountIsFocused = false
+                        amountIsFocused = false // When done is pressed amountIsFocused = false
                     }
                 }
             }
