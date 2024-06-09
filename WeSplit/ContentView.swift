@@ -72,13 +72,14 @@ struct ContentView: View {
                         Text("Total Bill:")
                         Spacer()
                         Text(totalBill, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                            .foregroundStyle(tipPercentage == 0 ? .red : .primary)
                             
                     }
                     HStack {
                         Text("Total Per Person:")
                         Spacer()
                         Text(totalPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                            
+                            .foregroundStyle(tipPercentage == 0 ? .red : .primary)
                     }
                 }
             }
